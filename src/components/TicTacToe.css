@@ -1,0 +1,29 @@
+.tic-tac-toe {
+
+}
+
+.tic-tac-toe .board {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2px;
+    background: black;
+    border: 2px solid black;
+}
+
+.tic-tac-toe .ui {
+    text-align: center;
+}
+
+.tic-tac-toe .ui pre {
+    text-align: left;
+}
+
+.tic-tac-toe .board div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: darkgray;
+    font-size: 5em;
+    width: 100px;
+    height: 100px;
+}
