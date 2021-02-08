@@ -1,8 +1,7 @@
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import "./TicTacToe.css"
 
 const playerNumberToSymbol = {
-    0: "",
     1: "×",
     2: "○"
 }
@@ -37,8 +36,19 @@ const TicTacToe = () => {
         setJson(JSON.stringify({ board, round, currentPlayer, state }, null, 4))
     }, [board, round, currentPlayer, state])
 
+    const reset = () => {
+        setBoard(defaultBoard())
+        setRound(1)
+        setCurrentPlayer(PLAYERS.ONE)
+        setState(STATES.PLAYING)
+    }
+
+    const isPlaying = () => state === STATES.PLAYING
+    const isGameOver = () => state === STATES.GAME_OVER
+    const isTie = () => state === STATES.TIE
+
     const handleClick = (x, y) => {
-        if (board[x][y] !== 0) return
+        if (board[x][y] !== 0 || isTie() || isGameOver()) return
         const newBoard = [...board]
         newBoard[x][y] = currentPlayer
         setBoard(newBoard)
@@ -55,18 +65,11 @@ const TicTacToe = () => {
         }
     }
 
-    const reset = () => {
-        setBoard(defaultBoard())
-        setRound(1)
-        setCurrentPlayer(PLAYERS.ONE)
-        setState(STATES.PLAYING)
-    }
-
     const isWinner = () => {
         const checkRows = () => {
-            const top = board[0][0] === board[1][0] && board[1][0] === board[2][0] && board[2][0] === currentPlayer
-            const center = board[0][1] === board[1][1] && board[1][1] === board[2][1] && board[2][1] === currentPlayer
-            const bottom = board[0][2] === board[1][2] && board[1][2] === board[2][2] && board[2][2] === currentPlayer
+            const top = board[0][0] === board[0][1] && board[0][1] === board[0][2] && board[0][2] === currentPlayer
+            const center = board[1][0] === board[1][1] && board[1][1] === board[1][2] && board[1][2] === currentPlayer
+            const bottom = board[2][0] === board[2][1] && board[2][1] === board[2][2] && board[2][2] === currentPlayer
             return top || center || bottom
         }
 
@@ -85,10 +88,6 @@ const TicTacToe = () => {
 
         return checkRows() || checkCols() || checkDiagonals()
     }
-
-    const isPlaying = () => state === STATES.PLAYING
-    const isGameOver = () => state === STATES.GAME_OVER
-    const isTie = () => state === STATES.TIE
 
     return (
         <div className="tic-tac-toe">
